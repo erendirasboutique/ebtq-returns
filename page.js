@@ -122,6 +122,14 @@ export default function ReturnsPage() {
   rel="noopener noreferrer"
 >
   📄 Return Instructions
+
+    <a
+  href="/return-instructions.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  📄 Return Packet
+</a>
 </a>
   }
 
