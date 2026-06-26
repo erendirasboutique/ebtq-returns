@@ -113,7 +113,7 @@ export default function ReturnsPage() {
       formData.get("returnPolicyAccepted") === "on";
 
     try {
-      const response = await fetch("/api/create-return-label", {
+      const response = await fetch("/api/return-request", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
