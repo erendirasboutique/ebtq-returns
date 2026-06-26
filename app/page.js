@@ -31,6 +31,7 @@ const text = {
     success: "Your return label is ready!",
     download: "Download return label",
     track: "Track return",
+    instructions: "Return Instructions",
     error: "We could not create your return label.",
     reasons: [
       "Item does not fit",
@@ -68,6 +69,7 @@ const text = {
     success: "¡Tu etiqueta de devolución está lista!",
     download: "Descargar etiqueta",
     track: "Rastrear devolución",
+    instructions: "Instrucciones de devolución",
     error: "No pudimos crear tu etiqueta de devolución.",
     reasons: [
       "La prenda no me quedó",
@@ -294,9 +296,17 @@ export default function ReturnsPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {t.download}
+                    📦 {t.download}
                   </a>
                 )}
+
+                <a
+                  href="/return-instructions.pdf"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  📄 {t.instructions}
+                </a>
 
                 {result.trackingUrlProvider && (
                   <a
@@ -304,7 +314,7 @@ export default function ReturnsPage() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    {t.track}
+                    🚚 {t.track}
                   </a>
                 )}
               </div>
