@@ -102,11 +102,17 @@ export default function ReturnsPage() {
   async function handleSubmit(event) {
   event.preventDefault();
 
-  const form = event.currentTarget;
-
   setStatus("loading");
   setResult(null);
   setError("");
+
+  const form = event.target.closest("form");
+
+  if (!form) {
+    setStatus("error");
+    setError("The return form could not be found. Please refresh and try again.");
+    return;
+  }
 
   const formData = new FormData(form);
   const payload = Object.fromEntries(formData.entries());
@@ -114,32 +120,29 @@ export default function ReturnsPage() {
   payload.returnPolicyAccepted =
     formData.get("returnPolicyAccepted") === "on";
 
-    try {
-      const response = await fetch("/api/return-request", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(payload)
-      });
+  try {
+    const response = await fetch("/api/return-request", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(payload)
+    });
 
-      const data = await response.json();
+    const data = await response.json();
 
-      if (!response.ok || !data.ok) {
-        throw new Error(data.message || "Return label failed.");
-      }
-      
-const form = event.currentTarget;
-const formData = new FormData(form);
-      
-      setResult(data);
-setStatus("success");
-form.reset();
-    } catch (err) {
-      setError(err.message || "Something went wrong.");
-      setStatus("error");
+    if (!response.ok || !data.ok) {
+      throw new Error(data.message || "Return label failed.");
     }
+
+    setResult(data);
+    setStatus("success");
+    form.reset();
+  } catch (err) {
+    setError(err.message || "Something went wrong.");
+    setStatus("error");
   }
+}
 
   return (
     <main className="page">
