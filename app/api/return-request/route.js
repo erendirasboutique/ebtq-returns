@@ -1,6 +1,26 @@
 function getEnv(name, fallback = "") {
   return process.env[name] || fallback;
 }
+async function saveReturnToGoogleSheets(returnData) {
+  const webhookUrl = process.env.GOOGLE_SHEETS_WEBHOOK_URL;
+
+  if (!webhookUrl) {
+    console.warn("Missing GOOGLE_SHEETS_WEBHOOK_URL");
+    return;
+  }
+
+  try {
+    await fetch(webhookUrl, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(returnData)
+    });
+  } catch (error) {
+    console.error("Google Sheets save failed:", error);
+  }
+}
 
 function cleanObject(obj) {
   return Object.fromEntries(
