@@ -248,7 +248,28 @@ export async function POST(request) {
         { status: transactionResponse.status || 400 }
       );
     }
-
+await saveReturnToGoogleSheets({
+  name: customerAddress.name,
+  email: customerAddress.email,
+  phone: customerAddress.phone,
+  orderNumber,
+  originalTrackingNumber,
+  reason: body.reason || "",
+  details: body.details || "",
+  carrier: selectedRate.provider,
+  service:
+    selectedRate.servicelevel?.name ||
+    selectedRate.servicelevel?.token ||
+    "",
+  amount: selectedRate.amount,
+  currency: selectedRate.currency,
+  labelUrl: transaction.label_url,
+  returnTrackingNumber: transaction.tracking_number,
+  trackingUrlProvider:
+    transaction.tracking_url_provider ||
+    carrierTrackingUrl(selectedRate.provider, transaction.tracking_number),
+  eta: transaction.eta
+});
     return Response.json({
       ok: true,
       orderNumber,
