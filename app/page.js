@@ -100,17 +100,19 @@ export default function ReturnsPage() {
   }, [language]);
 
   async function handleSubmit(event) {
-    event.preventDefault();
+  event.preventDefault();
 
-    setStatus("loading");
-    setResult(null);
-    setError("");
+  const form = event.currentTarget;
 
-    const formData = new FormData(event.currentTarget);
-    const payload = Object.fromEntries(formData.entries());
+  setStatus("loading");
+  setResult(null);
+  setError("");
 
-    payload.returnPolicyAccepted =
-      formData.get("returnPolicyAccepted") === "on";
+  const formData = new FormData(form);
+  const payload = Object.fromEntries(formData.entries());
+
+  payload.returnPolicyAccepted =
+    formData.get("returnPolicyAccepted") === "on";
 
     try {
       const response = await fetch("/api/return-request", {
@@ -126,10 +128,13 @@ export default function ReturnsPage() {
       if (!response.ok || !data.ok) {
         throw new Error(data.message || "Return label failed.");
       }
-
+      
+const form = event.currentTarget;
+const formData = new FormData(form);
+      
       setResult(data);
-      setStatus("success");
-      event.currentTarget.reset();
+setStatus("success");
+form.reset();
     } catch (err) {
       setError(err.message || "Something went wrong.");
       setStatus("error");
