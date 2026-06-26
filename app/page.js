@@ -344,6 +344,22 @@ export default function ReturnsPage() {
           )}
         </form>
       </section>
+ <footer className="footer">
+  <img src="/logo.png" alt="Erendira's Boutique" />
+
+  <h2>Erendira&apos;s Boutique</h2>
+  <p>Envios cada Sabado!</p>
+
+  <div className="footerLinks">
+    <a href="https://www.erendirasboutique.com" target="_blank" rel="noopener noreferrer">🏠 Home</a>
+    <a href="https://www.erendirasboutique.com/shop" target="_blank" rel="noopener noreferrer">🛍 Shop</a>
+    <a href="https://www.erendirasboutique.com/gallery" target="_blank" rel="noopener noreferrer">📸 Gallery</a>
+    <a href="https://www.erendirasboutique.com/contact" target="_blank" rel="noopener noreferrer">📧 Contact</a>
+    <a href="https://www.erendirasboutique.com/return-policy" target="_blank" rel="noopener noreferrer">📄 Return Policy</a>
+  </div>
+
+  <small>© 2026 Erendira&apos;s Boutique</small>
+</footer>
  
       <style jsx>{`
         .page {
@@ -423,7 +439,64 @@ export default function ReturnsPage() {
           line-height: 1.7;
           color: #6b5648;
         }
- 
+ .footer {
+  max-width: 1120px;
+  margin: 70px auto 20px;
+  padding: 38px 20px;
+  text-align: center;
+  border-top: 2px solid rgba(111, 153, 64, 0.22);
+  position: relative;
+  z-index: 1;
+}
+
+.footer img {
+  width: 170px;
+  max-width: 70vw;
+  display: block;
+  margin: 0 auto 12px;
+}
+
+.footer h2 {
+  font-family: var(--font-heading), Georgia, serif;
+  font-size: 34px;
+  margin: 8px 0;
+  color: #2f261f;
+}
+
+.footer p {
+  margin: 0 0 22px;
+  color: #6b5648;
+  font-size: 15px;
+}
+
+.footerLinks {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 22px;
+}
+
+.footerLinks a {
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(111, 153, 64, 0.18);
+  color: #4f742a;
+  padding: 11px 15px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 900;
+  transition: 0.2s ease;
+}
+
+.footerLinks a:hover {
+  background: #6f9940;
+  color: white;
+  transform: translateY(-2px);
+}
+
+.footer small {
+  color: #6b5648;
+}
         .warning,
         .card {
           background: rgba(255, 255, 255, 0.82);
