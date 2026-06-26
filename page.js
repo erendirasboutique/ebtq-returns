@@ -116,6 +116,13 @@ export default function ReturnsPage() {
       setStatus("error");
       setMessage(t.errorText);
     }
+    <a
+  href="/return-instructions.pdf"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  📄 Return Instructions
+</a>
   }
 
   return (
