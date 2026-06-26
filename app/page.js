@@ -8,7 +8,7 @@ const text = {
     subtitle:
       "Enter your return information below. If everything is correct, your prepaid return label will be created instantly.",
     warning:
-      "Only create a return label if your return follows Erendira's Boutique return policy.",
+      "Only create a return label if you have been authorized to do so.",
     language: "Language",
     name: "Full name",
     email: "Email",
@@ -24,11 +24,11 @@ const text = {
     city: "City",
     state: "State",
     zip: "ZIP code",
-    weight: "Package weight in pounds",
+    weight: "Package weight in pounds(lbs)",
     reason: "Reason for return",
     details: "More details",
     policy:
-      "I understand this return must follow Erendira's Boutique return policy.",
+      "I have been authorized to initiate this return.",
     submit: "Create return label",
     loading: "Creating label...",
     success: "Your return label is ready!",
