@@ -1,4 +1,42 @@
 'use client';
+
 import { useState } from 'react';
-const empty={access_code:'',customer_name:'',customer_email:'',customer_phone:'',original_tracking_number:'',reason:'',comments:'',address_line1:'',address_line2:'',city:'',state:'CA',zip:'',country:'US',parcel_length:13,parcel_width:10,parcel_height:10,parcel_weight_lb:1,parcel_weight_oz:0};
-export default function Page(){const[step,setStep]=useState('code');const[form,setForm]=useState(empty);const[msg,setMsg]=useState('');const[busy,setBusy]=useState(false);const[submitted,setSubmitted]=useState(null);function set(k,v){setForm(o=>({...o,[k]:v}))}async function verify(e){e.preventDefault();setBusy(true);setMsg('Checking access code...');try{const res=await fetch('/api/return-code/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({code:form.access_code})});const data=await res.json();if(!res.ok)throw new Error(data.error||'Code not valid');const c=data.returnCode;setForm(o=>({...o,access_code:c.code,customer_name:c.customer_name||o.customer_name,customer_email:c.customer_email||o.customer_email,customer_phone:c.customer_phone||o.customer_phone,original_tracking_number:c.original_tracking_number||o.original_tracking_number}));setMsg('Code accepted. Fill out your return request.');setStep('form')}catch(e){setMsg(e.message)}finally{setBusy(false)}}async function submit(e){e.preventDefault();setBusy(true);setMsg('Submitting return request...');try{const res=await fetch('/api/return-request',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(form)});const data=await res.json();if(!res.ok)throw new Error(data.error||'Could not submit return');setSubmitted(data.request);setStep('done');setMsg('')}catch(e){setMsg(e.message)}finally{setBusy(false)}}return <main className="page"><div className="flower f1">✿</div><div className="flower f2">✿</div><div className="flower f3">✿</div><div className="wrap"><section className="hero"><img src="/logo.jpeg" className="logo" alt="Erendira's Boutique"/><div><p className="eyebrow">Returns Portal</p><h1>Start Your Return</h1><p className="muted">Enter the return access code provided by Erendira&apos;s Boutique.</p></div></section><section className="card">{msg&&<div className={`notice ${msg.toLowerCase().includes('not')||msg.toLowerCase().includes('could')?'error':''}`}>{msg}</div>}{step==='code'&&<form onSubmit={verify} className="form"><label>Return Access Code<input value={form.access_code} onChange={e=>set('access_code',e.target.value.toUpperCase())} placeholder="Example: AB12CD34" required/></label><button className="primary" disabled={busy}>{busy?'Checking...':'Unlock Return Form'}</button></form>}{step==='form'&&<form onSubmit={submit} className="form"><div className="summary"><b>Access code accepted:</b> {form.access_code}<br/><span className="muted">After submitting, your request will appear in our Shipping Studio for label creation.</span></div><div className="grid"><label className="wide">Name<input value={form.customer_name} onChange={e=>set('customer_name',e.target.value)} required/></label><label>Email<input value={form.customer_email} onChange={e=>set('customer_email',e.target.value)} required/></label><label>Phone<input value={form.customer_phone} onChange={e=>set('customer_phone',e.target.value)}/></label><label className="wide">Original Tracking Number<input value={form.original_tracking_number} onChange={e=>set('original_tracking_number',e.target.value)}/></label><label className="wide">Return Reason<select value={form.reason} onChange={e=>set('reason',e.target.value)} required><option value="">Choose a reason</option><option>Wrong size</option><option>Damaged item</option><option>Wrong item received</option><option>Changed mind</option><option>Other</option></select></label><label className="wide">Comments<textarea value={form.comments} onChange={e=>set('comments',e.target.value)} rows="3"/></label><label className="wide">Address 1<input value={form.address_line1} onChange={e=>set('address_line1',e.target.value)} required/></label><label className="wide">Address 2<input value={form.address_line2} onChange={e=>set('address_line2',e.target.value)}/></label><label>City<input value={form.city} onChange={e=>set('city',e.target.value)} required/></label><label>State<input value={form.state} onChange={e=>set('state',e.target.value)} required/></label><label>ZIP<input value={form.zip} onChange={e=>set('zip',e.target.value)} required/></label><label>Country<input value={form.country} onChange={e=>set('country',e.target.value)} /></label><label>Weight lb<input type="number" value={form.parcel_weight_lb} onChange={e=>set('parcel_weight_lb',e.target.value)} /></label><label>Weight oz<input type="number" value={form.parcel_weight_oz} onChange={e=>set('parcel_weight_oz',e.target.value)} /></label></div><div className="actions"><button className="primary" disabled={busy}>{busy?'Submitting...':'Submit Return Request'}</button><button className="btn" type="button" onClick={()=>setStep('code')}>Back</button></div></form>}{step==='done'&&<div><h2>Return Request Sent</h2><p className="muted">Thank you. Erendira&apos;s Boutique will create your return label soon.</p><div className="summary"><b>Status:</b> {submitted?.status||'requested'}<br/><b>Access Code:</b> {submitted?.access_code}</div><button className="green" onClick={()=>{setForm(empty);setSubmitted(null);setStep('code')}}>Start Another Return</button></div>}</section><p className="footer">Erendira&apos;s Boutique · Returns Portal</p></div></main>}
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import AccessCodeForm from '@/components/AccessCodeForm';
+import ReturnForm from '@/components/ReturnForm';
+import ReturnSuccess from '@/components/ReturnSuccess';
+
+export default function Page() {
+  const [returnCode, setReturnCode] = useState(null);
+  const [submitted, setSubmitted] = useState(null);
+
+  return (
+    <main className="page">
+      <div className="flower f1">✿</div>
+      <div className="flower f2">✿</div>
+      <div className="flower f3">✿</div>
+
+      <div className="wrap">
+        <Header />
+
+        {!returnCode && !submitted && (
+          <AccessCodeForm onVerified={setReturnCode} />
+        )}
+
+        {returnCode && !submitted && (
+          <ReturnForm
+            returnCode={returnCode}
+            onSubmitted={setSubmitted}
+          />
+        )}
+
+        {submitted && (
+          <ReturnSuccess request={submitted} />
+        )}
+
+        <Footer />
+      </div>
+    </main>
+  );
+}
