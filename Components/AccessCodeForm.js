@@ -13,7 +13,7 @@ export default function AccessCodeForm({ onVerified }) {
     setMsg('Checking access code...');
 
     try {
-      const res = await fetch('/api/returns/verify-code', {
+      const res = await fetch('/api/return-code/verify', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ code: code.trim() })
