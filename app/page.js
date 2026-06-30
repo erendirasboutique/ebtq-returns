@@ -11,6 +11,11 @@ export default function Page() {
   const [returnCode, setReturnCode] = useState(null);
   const [submitted, setSubmitted] = useState(null);
 
+  function reset() {
+    setReturnCode(null);
+    setSubmitted(null);
+  }
+
   return (
     <main className="page">
       <div className="flower f1">✿</div>
@@ -28,11 +33,12 @@ export default function Page() {
           <ReturnForm
             returnCode={returnCode}
             onSubmitted={setSubmitted}
+            onBack={() => setReturnCode(null)}
           />
         )}
 
         {submitted && (
-          <ReturnSuccess request={submitted} />
+          <ReturnSuccess request={submitted} onReset={reset} />
         )}
 
         <Footer />
