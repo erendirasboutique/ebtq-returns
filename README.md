@@ -1,29 +1,16 @@
-# Erendira's Boutique Returns
+# Erendira's Boutique Returns Portal
 
-Separate returns-only Next.js project for GitHub + Vercel.
+Customer-facing return access-code portal.
 
-## Upload instructions
+## Flow
+1. Admin creates a return code in Shipping Studio → Returns.
+2. Customer enters the code here.
+3. Customer submits return details and return-from address.
+4. Request appears in Shipping Studio → Returns.
+5. Admin creates/prints/tracks the return label.
 
-1. Create a new GitHub repository named:
-   erendiras-returns
+## Env vars
+NEXT_PUBLIC_SUPABASE_URL=
+SUPABASE_SERVICE_ROLE_KEY=
 
-2. Unzip this file.
-
-3. Upload the unzipped contents to GitHub.
-
-4. Add your font files into:
-   app/fonts/
-
-Exact names:
-- bringbold_nineties_regular.otf
-- MDNichrome-Bold.otf
-
-5. Create a new Vercel project and import this GitHub repository.
-
-6. Optional domain:
-   returns.erendirasboutique.com
-
-## Important
-
-This first version only collects return requests.
-It does NOT automatically create paid return labels.
+Deploy to `returns.erendirasboutique.com` or your preferred Vercel domain.

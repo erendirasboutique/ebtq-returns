@@ -1,15 +1,1 @@
-{
-  "name": "erendiras-returns",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start"
-  },
-  "dependencies": {
-    "next": "latest",
-    "react": "latest",
-    "react-dom": "latest"
-  }
-}
+{"name":"ebtq-returns-portal-access-code-v1","version":"1.0.0","private":true,"type":"module","scripts":{"dev":"next dev","build":"next build","start":"next start"},"dependencies":{"next":"16.2.9","react":"19.2.3","react-dom":"19.2.3"}}
